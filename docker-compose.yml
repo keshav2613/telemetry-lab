@@ -27,3 +27,19 @@ services:
       - "127.0.0.1:3000:3000"
     depends_on:
       - tempo
+
+  
+  prometheus:
+    image: prom/prometheus:v3.3.0
+    container_name: telemetry-prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+    volumes:
+      - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    ports:
+      - "127.0.0.1:9090:9090"
+
+volumes:
+  prometheus-data:
