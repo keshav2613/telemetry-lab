@@ -1,0 +1,18 @@
+
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    uid: fg2gtfx9zopvke
+    type: prometheus
+    access: proxy
+    url: http://prometheus:9090
+    isDefault: true
+    editable: true
+
+  - name: Tempo
+    uid: bg1laimmykhkwa
+    type: tempo
+    access: proxy
+    url: http://tempo:3200
+    editable: true
