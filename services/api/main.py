@@ -1,6 +1,7 @@
 import os
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 from opentelemetry.instrumentation.httpx import HTTPXClientInstrumentor
+from prometheus_fastapi_instrumentator import Instrumentator
 
 from tracing import configure_tracing
 import httpx
@@ -62,3 +63,8 @@ configure_tracing()
 
 FastAPIInstrumentor.instrument_app(app)
 HTTPXClientInstrumentor().instrument()
+
+# Expose Prometheus metrics
+Instrumentator(
+    excluded_handlers=["/metrics"]
+).instrument(app).expose(app, endpoint="/metrics")

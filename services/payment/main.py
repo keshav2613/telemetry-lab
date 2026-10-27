@@ -3,6 +3,7 @@ import os
 import time
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 from tracing import configure_tracing
+from prometheus_fastapi_instrumentator import Instrumentator
 app = FastAPI(title="Telemetry Lab Payment Service")
 
 
@@ -25,3 +26,8 @@ def payment():
     }
 configure_tracing()
 FastAPIInstrumentor.instrument_app(app)
+
+# Expose Prometheus metrics
+Instrumentator(
+    excluded_handlers=["/metrics"]
+).instrument(app).expose(app, endpoint="/metrics")
